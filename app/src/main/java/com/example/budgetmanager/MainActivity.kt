@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar!!.setTitle("Transaction")
+
+        binding.floatingActionButton.setOnClickListener{view ->
+            AddTransactionFragment().show(supportFragmentManager, null)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
