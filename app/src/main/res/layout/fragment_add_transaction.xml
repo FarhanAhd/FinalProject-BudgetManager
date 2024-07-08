@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_bg"
-    tools:context=".AddTransactionFragment">
+    tools:context=".views.fragments.AddTransactionFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -55,6 +55,7 @@
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:hint="Select Date" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,30 +68,35 @@
                     android:id="@+id/amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Amount" />
+                    android:hint="Amount"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:focusable="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:hint="Category" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:focusable="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:hint="Account" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,6 +120,7 @@
                 android:gravity="center"
                 android:text="Save Transaction"
                 app:cornerRadius="3dp" />
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
