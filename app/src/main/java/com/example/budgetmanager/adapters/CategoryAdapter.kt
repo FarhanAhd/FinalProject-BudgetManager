@@ -1,20 +1,21 @@
 package com.example.budgetmanager.adapters
 
+import com.example.budgetmanager.R
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.budgetmanager.R
-import com.example.budgetmanager.adapters.CategoryAdapter.CategoryViewHolder
 import com.example.budgetmanager.databinding.SampleCategoryItemBinding
 import com.example.budgetmanager.models.Category
 
 class CategoryAdapter(
-    var context: Context,
-    var categories: ArrayList<Category>,
+    var context: Context, categories: ArrayList<Category>?,
     var categoryClickListener: CategoryClickListener
-) : RecyclerView.Adapter<CategoryViewHolder>() {
+) :
+    RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+    var categories: ArrayList<Category>? = categories
+
     interface CategoryClickListener {
         fun onCategoryClicked(category: Category?)
     }
@@ -26,12 +27,11 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val category = categories[position]
-        holder.binding.categoryText.text = category.categoryName
-        holder.binding.categoryIcon.setImageResource(category.categoryImage)
+        val category: Category = categories!![position]
+        holder.binding.categoryText.setText(category.getCategoryName())
+        holder.binding.categoryIcon.setImageResource(category.getCategoryImage())
 
-        holder.binding.categoryIcon.backgroundTintList =
-            context.getColorStateList(category.categoryColor)
+        holder.binding.categoryIcon.setBackgroundTintList(context.getColorStateList(category.getCategoryColor()))
 
         holder.itemView.setOnClickListener { c: View? ->
             categoryClickListener.onCategoryClicked(category)
@@ -39,7 +39,7 @@ class CategoryAdapter(
     }
 
     override fun getItemCount(): Int {
-        return categories.size
+        return categories!!.size
     }
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

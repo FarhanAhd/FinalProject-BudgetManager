@@ -1,7 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id ("io.realm.kotlin")
+    id ("org.jetbrains.kotlin.kapt")
 }
+
+apply(plugin = "realm-android")
 
 android {
     namespace = "com.example.budgetmanager"
@@ -49,4 +53,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation (libs.library.base)
+    implementation (libs.kotlin.library.sync)
+    implementation (libs.kotlinx.coroutines.core)
 }

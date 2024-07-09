@@ -10,4 +10,20 @@ class Account {
         this.accountAmount = accountAmount
         this.accountName = accountName
     }
+
+    fun getAccountAmount(): Double {
+        return accountAmount
+    }
+
+    fun setAccountAmount(accountAmount: Double) {
+        this.accountAmount = accountAmount
+    }
+
+    fun getAccountName(): String {
+        return accountName!!
+    }
+
+    fun setAccountName(accountName: String?) {
+        this.accountName = accountName
+    }
 }

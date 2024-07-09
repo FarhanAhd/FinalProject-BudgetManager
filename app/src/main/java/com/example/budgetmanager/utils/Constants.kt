@@ -3,12 +3,10 @@ package com.example.budgetmanager.utils
 import com.example.budgetmanager.R
 import com.example.budgetmanager.models.Category
 
-
 object Constants {
     var INCOME: String = "INCOME"
     var EXPENSE: String = "EXPENSE"
 
-    @JvmField
     var categories: ArrayList<Category>? = null
 
     var DAILY: Int = 0
@@ -18,11 +16,9 @@ object Constants {
     var NOTES: Int = 4
 
     var SELECTED_TAB: Int = 0
-    var SELECTED_TAB_STATS: Int = 0
-    var SELECTED_STATS_TYPE: String = INCOME
 
-    fun setCategories() {
-        categories = ArrayList()
+    open fun setCategories() {
+        categories = ArrayList<Category>()
         categories!!.add(Category("Salary", R.drawable.ic_salary, R.color.category1))
         categories!!.add(Category("Business", R.drawable.ic_business, R.color.category2))
         categories!!.add(Category("Investment", R.drawable.ic_investment, R.color.category3))
@@ -31,9 +27,9 @@ object Constants {
         categories!!.add(Category("Other", R.drawable.ic_other, R.color.category6))
     }
 
-    fun getCategoryDetails(categoryName: String): Category? {
+    fun getCategoryDetails(categoryName: String?): Category? {
         for (cat in categories!!) {
-            if (cat.categoryName == categoryName) {
+            if (cat.getCategoryName().equals(categoryName)) {
                 return cat
             }
         }
