@@ -7,13 +7,12 @@ import com.example.budgetmanager.models.Transaction
 import com.example.budgetmanager.utils.Constants
 import io.realm.Realm
 import io.realm.RealmResults
-import io.realm.kotlin.deleteFromRealm
 import java.util.Calendar
 import java.util.Date
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    var transactions: MutableLiveData<RealmResults<Transaction>?> =
-        MutableLiveData<RealmResults<Transaction>?>()
+    var transactions: MutableLiveData<RealmResults<Transaction>?> = MutableLiveData()
+    var categoriesTransactions: MutableLiveData<RealmResults<Transaction>?> = MutableLiveData()
 
     var totalIncome: MutableLiveData<Double> = MutableLiveData()
     var totalExpense: MutableLiveData<Double> = MutableLiveData()
@@ -27,6 +26,42 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         setupDatabase()
     }
 
+    fun getTransactions(calendar: Calendar, type: String?) {
+        this.calendar = calendar
+        calendar[Calendar.HOUR_OF_DAY] = 0
+        calendar[Calendar.MINUTE] = 0
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MILLISECOND] = 0
+
+
+        var newTransactions: RealmResults<Transaction>? = null
+        if (Constants.SELECTED_TAB_STATS == Constants.DAILY) {
+            newTransactions = realm!!.where(Transaction::class.java)
+                .greaterThanOrEqualTo("date", calendar.time)
+                .lessThan("date", Date(calendar.time.time + (24 * 60 * 60 * 1000)))
+                .equalTo("type", type)
+                .findAll()
+        } else if (Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
+            calendar[Calendar.DAY_OF_MONTH] = 0
+
+            val startTime = calendar.time
+
+
+            calendar.add(Calendar.MONTH, 1)
+            val endTime = calendar.time
+
+            newTransactions = realm!!.where(Transaction::class.java)
+                .greaterThanOrEqualTo("date", startTime)
+                .lessThan("date", endTime)
+                .equalTo("type", type)
+                .findAll()
+        }
+
+
+        categoriesTransactions.value = newTransactions
+    }
+
+
     fun getTransactions(calendar: Calendar?) {
         this.calendar = calendar
         calendar!![Calendar.HOUR_OF_DAY] = 0
@@ -38,7 +73,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         var expense = 0.0
         var total = 0.0
         var newTransactions: RealmResults<Transaction>? = null
-        if (Constants.SELECTED_TAB === Constants.DAILY) {
+        if (Constants.SELECTED_TAB == Constants.DAILY) {
             // Select * from transactions
             // Select * from transactions where id = 5
 
@@ -66,7 +101,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 .lessThan("date", Date(calendar.time.time + (24 * 60 * 60 * 1000)))
                 .sum("amount")
                 .toDouble()
-        } else if (Constants.SELECTED_TAB === Constants.MONTHLY) {
+        } else if (Constants.SELECTED_TAB == Constants.MONTHLY) {
             calendar[Calendar.DAY_OF_MONTH] = 0
 
             val startTime = calendar.time
@@ -101,17 +136,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 .toDouble()
         }
 
-        totalIncome.setValue(income)
-        totalExpense.setValue(expense)
-        totalAmount.setValue(total)
-        transactions.setValue(newTransactions)
+        totalIncome.value = income
+        totalExpense.value = expense
+        totalAmount.value = total
+        transactions.value = newTransactions
 
         //        RealmResults<Transaction> newTransactions = realm.where(Transaction.class)
 //                .equalTo("date", calendar.getTime())
 //                .findAll();
     }
 
-    fun addTransaction(transaction: Transaction?) {
+    fun addTransaction(transaction: Transaction) {
         realm!!.beginTransaction()
         realm!!.copyToRealmOrUpdate(transaction)
         // some code here

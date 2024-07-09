@@ -8,11 +8,13 @@
         android:id="@+id/categoryIcon"
         android:layout_width="42dp"
         android:layout_height="42dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/category_bg"
         android:padding="10dp"
         android:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_investment" />
 
     <TextView
