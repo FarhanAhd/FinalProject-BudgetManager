@@ -1,24 +1,24 @@
 package com.example.budgetmanager.adapters
 
+import com.example.budgetmanager.R
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.budgetmanager.R
-import com.example.budgetmanager.adapters.AccountsAdapter.AccountsViewHolder
 import com.example.budgetmanager.databinding.RowAccountBinding
 import com.example.budgetmanager.models.Account
 
 class AccountsAdapter(
-    var context: Context,
-    var accountArrayList: ArrayList<Account>,
+    var context: Context, accountArrayList: ArrayList<Account>,
     var accountsClickListener: AccountsClickListener
-) : RecyclerView.Adapter<AccountsViewHolder>() {
+) :
+    RecyclerView.Adapter<AccountsAdapter.AccountsViewHolder>() {
+    var accountArrayList: ArrayList<Account> = accountArrayList
+
     interface AccountsClickListener {
         fun onAccountSelected(account: Account?)
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountsViewHolder {
         return AccountsViewHolder(
@@ -27,8 +27,8 @@ class AccountsAdapter(
     }
 
     override fun onBindViewHolder(holder: AccountsViewHolder, position: Int) {
-        val account = accountArrayList[position]
-        holder.binding.accountName.text = account.accountName
+        val account: Account = accountArrayList[position]
+        holder.binding.accountName.setText(account.getAccountName())
         holder.itemView.setOnClickListener { c: View? ->
             accountsClickListener.onAccountSelected(account)
         }
